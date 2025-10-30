@@ -21,7 +21,9 @@ def github():
     for c in commits:
         msg += f"- [{c['id'][:7]}] {c['message']} ({c['url']})\n"
 
-    requests.post(DISCORD_WEBHOOK_URL, json={"content": msg})
+    response = requests.post(DISCORD_WEBHOOK_URL, json={"content": msg})
+    print(response.status_code, response.text)
+
     return "ok", 200
 
 if __name__ == "__main__":
