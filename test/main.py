@@ -31,9 +31,20 @@ async def webhook_listener():
         print(f"Erro: canal {CHANNEL_ID} não encontrado")
         return
     while True:
-        message = await queue.get()
-        await channel.send(message)
+        message_data = await queue.get()
+        
+        embed = discord.Embed(
+            title="📦 Novo push na main!",
+            color=discord.Color.blurple()
+        )
+        
+        embed.add_field(name="Repositório", value=message_data["repo"], inline=True)
+        embed.add_field(name="Autor", value=message_data["pusher"], inline=True)
+        embed.add_field(name="Commit", value=message_data["commit"], inline=False)
+        
+        await channel.send(embed=embed)
         queue.task_done()
+
 
 # ----------------- Flask -----------------
 app = Flask(__name__)
@@ -51,13 +62,17 @@ def webhook():
     repo = data["repository"]["full_name"]
     pusher = data["pusher"]["name"]
     commit = data["head_commit"]["message"]
-    message = f"**{pusher}** fez push na **main** de `{repo}`:\n> {commit}"
+    message_dict = {
+        "repo": repo,
+        "pusher": pusher,
+        "commit": commit
+    }
 
     if bot_loop is None:
         return jsonify({"error": "Bot ainda não iniciado"}), 500
 
     # adiciona a mensagem na fila de forma thread-safe
-    asyncio.run_coroutine_threadsafe(queue.put(message), bot_loop)
+    asyncio.run_coroutine_threadsafe(queue.put(message_dict), bot_loop)
 
     return jsonify({"status": "ok"})
 
