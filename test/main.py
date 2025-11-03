@@ -4,6 +4,7 @@ from discord.ext import commands
 import asyncio
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
+from datetime import datetime, timezone
 
 load_dotenv()
 
@@ -35,7 +36,8 @@ async def webhook_listener():
         
         embed = discord.Embed(
             title="Novo push na main!",
-            color=discord.Color(0x7D5FFF)
+            color=discord.Color(0x7D5FFF),
+            timestamp=datetime.now(timezone.utc)
         )
 
         embed.add_field(name="Repositório", value=message_data["repo"], inline=True)
