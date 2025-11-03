@@ -35,20 +35,18 @@ async def webhook_listener():
         
         embed = discord.Embed(
             title="Novo push na main!",
-            color=discord.Color.blurple()
-
+            color=discord.Color(0x7D5FFF)
         )
-        thumb_arquivo = discord.File('test/imagens/logo_fundo_transparente.png', filename='thumb.png')
-        embed.set_thumbnail(url='attachment://thumb.png')
 
-        
         embed.add_field(name="Repositório", value=message_data["repo"], inline=True)
         embed.add_field(name="Autor", value=message_data["pusher"], inline=True)
         embed.add_field(name="Commit", value=message_data["commit"], inline=False)
-        
-        await channel.send(file=thumb_arquivo, embed=embed)
-        queue.task_done()
 
+        embed.set_thumbnail(url="https://www.rapaduraatomica.com.br/images/logo_fundo_transparente.png")
+
+        await channel.send(embed=embed)
+        queue.task_done()
+    
 
 # ----------------- Flask -----------------
 app = Flask(__name__)
