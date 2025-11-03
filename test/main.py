@@ -34,7 +34,7 @@ async def webhook_listener():
         message_data = await queue.get()
         
         embed = discord.Embed(
-            title="📦 Novo push na main!",
+            title="Novo push na main!",
             color=discord.Color.blurple()
         )
         
