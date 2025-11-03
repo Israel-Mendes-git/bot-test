@@ -36,13 +36,16 @@ async def webhook_listener():
         embed = discord.Embed(
             title="Novo push na main!",
             color=discord.Color.blurple()
+
         )
+        thumb_arquivo = discord.File('test/imagens/logo_fundo_transparente.png', 'thumb.png')
+        embed.set_thumbnail(url='attachment://thumb.png')
         
         embed.add_field(name="Repositório", value=message_data["repo"], inline=True)
         embed.add_field(name="Autor", value=message_data["pusher"], inline=True)
         embed.add_field(name="Commit", value=message_data["commit"], inline=False)
         
-        await channel.send(embed=embed)
+        await channel.send(file=thumb_arquivo, embed=embed)
         queue.task_done()
 
 
