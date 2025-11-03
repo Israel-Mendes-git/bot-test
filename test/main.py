@@ -38,8 +38,9 @@ async def webhook_listener():
             color=discord.Color.blurple()
 
         )
-        thumb_arquivo = discord.File('test/imagens/logo_fundo_transparente.png', 'thumb.png')
-        embed.set_thumbnail(url='attachment://thumb.png')
+        thumb_arquivo = discord.File('test/imagens/logo_fundo_transparente.png', filename='logo_fundo_transparente.png')
+        embed.set_thumbnail(url='attachment://logo_fundo_transparente.png')
+
         
         embed.add_field(name="Repositório", value=message_data["repo"], inline=True)
         embed.add_field(name="Autor", value=message_data["pusher"], inline=True)
